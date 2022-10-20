@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link 
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" 
+            rel="stylesheet"
+        >
+        <!-- Font Awesome CDN -->
+        <link 
+            rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" 
+            integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer"
+        >
+        <!-- CSS External File -->
+        <link rel="stylesheet" href="./css/style.css">
+        <!-- External JS file -->
+        <script 
+            type="text/javascript" 
+            src="./js/script.js"
+            defer
+        >
+        </script>
+        <title>Let's play | Rock, Paper or Scissors</title>
+    </head>
+    <body>
+            <section class="container jumbotron">
+                <h1>Let's Play <i class="fa-solid fa-gamepad"></i></h1>
+                <article class="game_rules">
+                    <h4>
+                        Welcome to this fun game. The first one to win 5 rounds will be crowned the winner.
+                    </h4>
+                </article>
+                <!-- Ties Container -->
+                <article class="score">
+                    <h2 class="ties">Ties: 0</h2>
+                </article>
+                <!-- Player Container -->
+                <article>
+                    <h3 class="playerChoice"></h3>
+                    <h3 class="playerScore">Score: 0</h3>
+                    <div id="my-buttons">
+                        <button class="btn-cyan" id="rock" type="button">
+                            Rock <i class="fa-solid fa-hand-fist"></i>
+                        </button>
+                        <button class="btn-cyan" id="paper" type="button">
+                            Paper <i class="fa-solid fa-hand"></i>
+                        </button>
+                        <button class="btn-cyan" id="scissors" type="button">
+                            Scissors <i class="fa-solid fa-hand-scissors"></i>
+                        </button>
+                    </div>
+                </article>
+                <!-- Computer Container -->
+                <article>
+                    <h3 class="computerChoice"></h3>
+                    <h3 class="computerScore">Score: 0</h3>
+                    <div id="computer-buttons">
+                        <button class="btn-cyan rock" type="button">
+                            Rock <i class="fa-solid fa-hand-fist"></i>
+                        </button>
+                        <button class="btn-cyan paper" type="button">
+                            Paper <i class="fa-solid fa-hand"></i>
+                        </button>
+                        <button class="btn-cyan scissors" type="button">
+                            Scissors <i class="fa-solid fa-hand-scissors"></i>
+                        </button>
+                    </div>
+                </article>
+                <!-- Display winner -->
+                <article class="winnerContainer">
+                    <h2 class="winner"></h2>
+                    <button class="reset" onclick="resetGame()">
+                        Play Again? <i class="fa-solid fa-reply pl-icon"></i>
+                    </button>
+                </article>
+            </section>
+        </section>
+</body>
+</html>
