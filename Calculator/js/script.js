@@ -1,201 +1,197 @@
-let previousNum = "";
-let currentNum = "";
-let operator = "";
+const operandButtons = document.querySelectorAll("#operand");
+const operatorButtons = document.querySelectorAll("#operator");
+const equalsButton = document.getElementById("equals");
+const backspaceButton = document.getElementById("backspace");
+const allClearButton = document.getElementById("all-clear");
+const display = document.getElementById("display");
+let displayValue = "0";
+let firstOperand = "";
+let secondOperand = "";
+let firstOperator = "";
+let secondOperator = "";
+let result = "";
 
-const previousValue = document.querySelector('.previous-value');
-const currentValue = document.querySelector('.current-value');
-
-const operandButtons = document.querySelectorAll('.number');
-const operatorButtons = document.querySelectorAll('.operator');
-// Activate keyboard support
-window.addEventListener("keydown", handleKeyPress);
-
-const equalBtn = document.querySelector('.equals');
-
-equalBtn.addEventListener('click', () => {
-    // Checking before executing the mathematical operation
-    if (currentNum != "" && previousNum != "") {
-        operate();
-    }
-});
-
-const allClearBtn = document.querySelector('.all__clear');
-
-allClearBtn.addEventListener('click', allClear);
-
-const clearBtn = document.querySelector('.clear');
-
-clearBtn.addEventListener('click', () => {
-    clear();
-});
-
-const changeSignBtn = document.querySelector('.change__sign');
-
-changeSignBtn.addEventListener('click', () => {
-    changeSign();
-});
-
-const decimalBtn = document.querySelector('.decimal');
-
-decimalBtn.addEventListener('click', () => {
-    addDecimal();
-});
-
-// Target number buttons
-operandButtons.forEach(btn => {
-    btn.addEventListener('click', e => {
-        handleOperand(e.target.textContent);
-    });
-});
-
-function handleOperand(number) {
-    if (previousNum !== "" && currentNum !== "" && operator === "") {
-        previousNum = "";
-        currentValue.textContent = currentNum;
-    }
-
-    // Prevents the numbers from going off-screen
-    if (currentNum.length <= 11) {
-        currentNum += number;
-        currentValue.textContent = currentNum;
-    }
-}
-
-// Target operator buttons
-operatorButtons.forEach(btn => {
-    btn.addEventListener('click', e => {
-        handleOperator(e.target.textContent);
-    });
-});
-
-function operatorValidation(input) {
-    operator = input;
-    previousValue.textContent = previousNum + " " + operator;
-    currentValue.textContent = "";
-    currentNum = "";
-}
-
-function handleOperator(op) {
-    if (previousNum === "") {
-        previousNum = currentNum;
-        operatorValidation(op);
-    } else if (currentNum === "") {
-        operatorValidation(op);
-    } else {
-        operate();
-        operator = op;
-        previousValue.textContent = previousNum + " " + operator;
-        currentValue.textContent = "";
-    }
-}
-
-function operate() {
-    previousNum = Number(previousNum);
-    currentNum = Number(currentNum);
-
-    if (operator === "+") {
-        previousNum = previousNum + currentNum;
-    } else if (operator === "-"){
-        previousNum = previousNum - currentNum;
-    } else if (operator === "x") {
-        previousNum = previousNum * currentNum;
-    } else if (operator === "÷") {
-        if (currentNum <= 0) {
-            previousNum = `Error! (ง︡'-'︠)ง`;
-            displayResults();
-            return;
-        }
-        previousNum = previousNum / currentNum;
-    } else if (operator === "%"){
-        previousNum = previousNum /100 * currentNum;
-    }
-
-    previousNum = roundNumber(previousNum);
-    previousNum = previousNum.toString();
-    displayResults();
-}
-
-function displayResults() {
-    if (previousNum.length <= 11) {
-        currentValue.textContent = previousNum;
-    } else {
-        currentValue.textContent = previousNum.slice(0, 16) + "...";
-    }
-    previousValue.textContent = "";
-    operator = "";
-    currentNum = "";
-}
-
-function roundNumber(num) {
-    return Math.round(num * 100000) / 100000;
-}
-
-function allClear() {
-    currentNum = "";
-    previousNum = "";
-    operator = "";
-    currentValue.textContent = "0";
-    previousValue.textContent = "";
-}
-
-function clear() {
-    if (currentNum !== "") {
-      currentNum = currentNum.slice(0, -1);
-      currentValue.textContent = currentNum;
-      if (currentNum === "") {
-        currentValue.textContent = "0";
-      }
-    }
-    if (currentNum === "" && previousNum !== "" && operator === "") {
-      previousNum = previousNum.slice(0, -1);
-      currentValue.textContent = previousNum;
-    }
-}
-
-function addDecimal() {
-    if (!currentNum.includes('.')) {
-        currentNum += ".";
-        currentValue.textContent = currentNum;
-    }
-}
-
-function changeSign() {
-    if(currentNum !== "") {
-        currentNum = (currentNum * -1).toString();
-        currentValue.textContent = currentNum;
-    }
-}
-
-function handleKeyPress(e) {
-    e.preventDefault();
-    if (e.key >= 0 && e.key <= 9) {
-        handleOperand(e.key);
-    }
+document.addEventListener("keydown", (e) => {
     if (
-      e.key === "Enter" ||
-      (e.key === "=" && currentNum != "" && previousNum != "")
+        e.key === "1" ||
+        e.key === "2" ||
+        e.key === "3" ||
+        e.key === "4" ||
+        e.key === "5" ||
+        e.key === "6" ||
+        e.key === "7" ||
+        e.key === "8" ||
+        e.key === "9" ||
+        e.key === "0" ||
+        e.key === "."
     ) {
-      operate();
+        appendOperand(e.key);
+    } else if (
+        e.key === "/" ||
+        e.key === "*" ||
+        e.key === "-" ||
+        e.key === "+"
+    ) {
+        chooseOperator(e.key);
+    } else if (e.key === "=") {
+        equals();
+        updateDisplay();
+    } else if (e.key === "Backspace") {
+        backspace();
     }
-    if (e.key === "+" || e.key === "-" || e.key === "/") {
-      handleOperator(e.key);
+});
+
+const clear = () => {
+    displayValue = "0";
+    firstOperand = "";
+    secondOperand = "";
+    firstOperator = "";
+    secondOperator = "";
+    result = "";
+};
+
+const backspace = () => {
+    displayValue = displayValue.slice(0, -1);
+    updateDisplay();
+};
+
+const appendOperand = (operand) => {
+    if (operand === "." && displayValue.includes(".")) return;
+    if (!firstOperator) {
+        if (displayValue === "0" || displayValue === 0) {
+            displayValue = operand;
+        } else if (displayValue === firstOperand) {
+            displayValue = operand;
+        } else {
+            displayValue += operand;
+        }
+    } else {
+        if (displayValue === firstOperand) {
+            displayValue = operand;
+        } else {
+            displayValue += operand;
+        }
     }
-    if (e.key === "*") {
-      handleOperator("x");
+
+    updateDisplay();
+};
+
+const chooseOperator = (operator) => {
+    if (firstOperator && !secondOperator) {
+        secondOperator = operator;
+        secondOperand = displayValue;
+        result = operate(
+            Number(firstOperand),
+            Number(secondOperand),
+            firstOperator
+        );
+        displayValue = roundDecimalNumbers(result, 15).toString();
+        firstOperand = displayValue;
+        result = "";
+    } else if (firstOperator && secondOperator) {
+        secondOperand = displayValue;
+        result = operate(
+            Number(firstOperand),
+            Number(secondOperand),
+            secondOperator
+        );
+        secondOperator = operator;
+        displayValue = roundDecimalNumbers(result, 15).toString();
+        firstOperand = displayValue;
+        result = "";
+    } else {
+        firstOperator = operator;
+        firstOperand = displayValue;
     }
-    if (e.key === "%") {
-        handleOperator("%");
+};
+
+const operate = (num1, num2, operator) => {
+    if (operator === "+") {
+        return num1 + num2;
+    } else if (operator === "-") {
+        return num1 - num2;
+    } else if (operator === "*") {
+        return num1 * num2;
+    } else if (operator === "/") {
+        if (num2 === 0) {
+            return "Infinity";
+        } else {
+            return num1 / num2;
+        }
     }
-    if (e.key === ".") {
-      addDecimal();
+};
+
+const equals = () => {
+    if (!firstOperator) {
+        displayValue = displayValue;
+    } else if (secondOperator) {
+        secondOperand = displayValue;
+        result = operate(
+            Number(firstOperand),
+            Number(secondOperand),
+            secondOperator
+        );
+        if (result === "Infinity") {
+            displayValue = "Infinity";
+        } else {
+            displayValue = roundDecimalNumbers(result, 15).toString();
+            firstOperand = displayValue;
+            secondOperand = "";
+            firstOperator = "";
+            secondOperator = "";
+            result = "";
+        }
+    } else {
+        secondOperand = displayValue;
+        result = operate(
+            Number(firstOperand),
+            Number(secondOperand),
+            firstOperator
+        );
+        if (result === "Infinity") {
+            displayValue = "Infinity";
+        } else {
+            displayValue = roundDecimalNumbers(result, 15).toString();
+            firstOperand = displayValue;
+            secondOperand = "";
+            firstOperator = "";
+            secondOperator = "";
+            result = "";
+        }
     }
-    if (e.key === "Delete") {
-        allClear();
+};
+
+const updateDisplay = () => {
+    display.innerText = displayValue;
+    if (displayValue.length > 14) {
+        display.innerText = displayValue.substring(0, 14);
     }
-    if (e.key === "Backspace") {
-      clear();
-    }
-    if (e.key === "?") {
-        changeSign();
-    }
-}
+};
+updateDisplay();
+
+const roundDecimalNumbers = (num, length) =>
+    parseFloat(Math.round(num + "e" + length) + "e-" + length);
+
+operandButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        appendOperand(e.target.innerText);
+    });
+});
+
+operatorButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        chooseOperator(e.target.innerText);
+    });
+});
+
+equalsButton.addEventListener("click", () => {
+    equals();
+    updateDisplay();
+});
+
+allClearButton.addEventListener("click", () => {
+    clear();
+    updateDisplay();
+});
+
+backspaceButton.addEventListener("click", () => backspace());
