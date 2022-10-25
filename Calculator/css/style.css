@@ -1,152 +1,91 @@
-html {
+* {
     box-sizing: border-box;
-}
-  
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-}
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Nunito', sans-serif; 
-}
+    background: #eef2f3;
+    }
 
-#container {
-    display: flex;
+.calc-grid {
+    display: grid;
     justify-content: center;
     align-content: center;
-    align-items: center;
-    height: 100vh;
-    min-height: 600px;
-    overflow: hidden;
-    background-image: linear-gradient(to bottom right,#000dff 0,#70b6da);
-}
-
-/* Calculator frame */
-#calc__container {
-    background-color: #ececec;
-    border: 2px solid #d9d9d9;
-    border-radius: 10px;
-    display: grid;
+    min-height: 100vh;
     grid-template-columns: repeat(4, 100px);
-    grid-template-rows: minmax(100px, auto) repeat(5, 80px);
-    gap: 2px;
-    padding: 25px 8px;
-    box-shadow: 0px 8px 15px 5px rgba(71, 8, 77, 0.3);
-}
+    grid-template-rows: minmax(100px, auto) repeat(5, 100px);
+    }
 
-/* Calculator Screen */
-#display__operation {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-end;
-    height: 100px;
-    font-family: 'Orbitron', sans-serif;
-    color: #36bbe3;
-    margin: 15px 0 25px;
-    padding: 5px 8px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #1e1e1e;
-    border: 2px solid #101010;
-}
-
-.current-value {
-    font-size: 38px;
-}
-
-.previous-value {
-    font-size: 20px;
-}
-
-button {
-    margin: 1px;
-    border-radius: 5%;
-    border: none;
-    font-size: 32px;
+.calc-grid>button {
     cursor: pointer;
-}
-
-/* Number Buttons */
-.number {
-    background-color: #7d91f7;
-    color: #065e7b;
-}
-
-.number:hover {
-    background-color: #bfe4ff;
-    border: 2px solid #bfe4ff;
-}
-
-/* Equal Button */
-.equals {
-    background-color: #f4ca26;
-    color: #664800;
-}
-
-.equals:hover {
-    background-color: #fbdb5f;
-    border: 2px solid #fbdb5f;
-}
-
-/* Operator Buttons */
-.operator {
-    background-color: #7aa8e8;
-    color: #40025b;
-}
-
-.operator:hover {
-    background-color: #88e975;
-    border: 2px solid #88e975;
-}
-
-/* All Clear, Change Number Sign and Percentage Button */
-.all__clear,
-.change__sign,
-.percentage {
-    background-color: #a70a0a;
-    color: #02185b;
-}
-
-.all__clear:hover,
-.change__sign:hover,
-.percentage:hover {
-    background-color: #53cdf2;
-    border: 2px solid #53cdf2;
-}
-
-/* Clear one space and Decimal Buttons */
-.clear,
-.decimal {
-    background-color: #1fe9b0;
-    color: #713636;
-}
-
-.clear:hover,
-.decimal:hover {
-    background-color: #ffe2d5;
-    border: 2px solid #ffe2d5;
-}
-
-/* Media Query */
-@media only screen and (max-width: 450px) {
-    #calc__container {
-        display: grid;
-        grid-template-columns: repeat(4, 80px);
-        grid-template-rows: minmax(80px, auto) repeat(5, 60px);
+    font-size: 2rem;
+    border: none;
+    outline: none;
+    border: none;
+    color: #fff;
     }
-    .current-value {
-        font-size: 30px;
+
+.num {
+    background: #5A3F37;
+    background: -webkit-linear-gradient(to left, #2C7744, #5A3F37);
+    background: linear-gradient(to left, #2C7744, #5A3F37);
     }
-    .previous-value {
-        font-size: 16px;
+
+.num:active {
+    background: linear-gradient(to right, #2C7744, #5A3F37);
     }
-    button {
-        font-size: 25px;
+
+.symbol {
+    background: #544a7d;
+    background: -webkit-linear-gradient(to bottom, #ffd452, #544a7d);
+    background: linear-gradient(to bottom, #ffd452, #544a7d);
     }
-}
+
+.symbol:active {
+    background: linear-gradient(to top, #ffd452, #544a7d);
+    }
+
+.clear-del {
+    background: #373B44;
+    background: -webkit-linear-gradient(to left, #4286f4, #373B44);
+    background: linear-gradient(to left, #4286f4, #373B44);
+    }
+
+.clear-del:active {
+    background: linear-gradient(to right, #4286f4, #373B44);
+    }
+
+.calc-grid :nth-child(17) {
+    border-bottom-left-radius: 20px;
+    }
+
+.calc-grid :nth-child(19) {
+    border-bottom-right-radius: 20px;
+    }
+
+
+.span-two {
+    grid-column: span 2;
+    }
+
+.output {
+    grid-column: 1 / 5;
+    background-color: aquamarine;
+    border: none;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 3rem;
+    word-wrap: break-word;
+    word-break: break-all;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    color: #fff;
+    background: #232526;
+    background: -webkit-linear-gradient(to right, #414345, #232526);
+    background: linear-gradient(to right, #414345, #232526);
+    }
